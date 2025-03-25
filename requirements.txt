@@ -3,3 +3,4 @@ joblib
 pandas
 huggingface_hub
 scikit-learn 
+category_encoders
