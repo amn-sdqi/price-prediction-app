@@ -30,7 +30,7 @@ def encoder(df):
     return df
 
 
-st.title("🏦 Car Price Prediction")
+st.title("🚗 Car Price Prediction")
 
 st.write("Enter Model details")
 
