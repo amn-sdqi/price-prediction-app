@@ -5,13 +5,15 @@ import os
 from huggingface_hub import hf_hub_download
 
 
-model_path = hf_hub_download(repo_id="amn-sdqi/car-price-model", filename="model.joblib")
-
+model_path = hf_hub_download(
+    repo_id="amn-sdqi/car-price-model", filename="model.joblib"
+)
 
 
 # Get and print the current working directory
 cwd = os.getcwd()
-st.write("Current Directory:", cwd)
+
+# st.write("Current Directory:", cwd)
 
 # Load models
 predictor = joblib.load(model_path)
@@ -19,12 +21,14 @@ make_enc = joblib.load(os.path.join(cwd, "make_enc.joblib"))
 scaler = joblib.load(os.path.join(cwd, "scaler.joblib"))
 model_enc = joblib.load(os.path.join(cwd, "model_enc.joblib"))
 
+
 # Function to encode data
 def encoder(df):
     df["make"] = make_enc.transform(df[["make"]])
     df["model"] = model_enc.transform(df[["model"]])
     df[df.columns] = scaler.transform(df)
     return df
+
 
 st.title("🏦 Car Price Prediction")
 
@@ -38,18 +42,55 @@ with st.form("loan_form"):
     engine = st.number_input("Engine CC", value=796.0)
     max_power = st.number_input("VHP/HP", value=46.30)
     age = st.number_input("How Old is your Car (Years)", value=11.0)
-    
+
     make = st.selectbox(
         "Company Name",
-        ['MARUTI', 'HYUNDAI', 'HONDA', 'MAHINDRA', 'TOYOTA', 'TATA', 'FORD',
-         'VOLKSWAGEN', 'RENAULT', 'MERCEDES-BENZ', 'BMW', 'SKODA', 'CHEVROLET',
-         'AUDI', 'NISSAN', 'DATSUN', 'FIAT', 'JAGUAR', 'LAND', 'VOLVO', 'JEEP',
-         'MITSUBISHI', 'KIA', 'PORSCHE', 'MINI', 'MG', 'ISUZU', 'LEXUS', 'FORCE',
-         'BENTLEY', 'AMBASSADOR', 'OPELCORSA', 'DAEWOO', 'PREMIER', 'MASERATI',
-         'DC', 'LAMBORGHINI', 'FERRARI', 'MERCEDES-AMG', 'ROLLS-ROYCE', 'OPEL'],
-        placeholder="MARUTI"
+        [
+            "MARUTI",
+            "HYUNDAI",
+            "HONDA",
+            "MAHINDRA",
+            "TOYOTA",
+            "TATA",
+            "FORD",
+            "VOLKSWAGEN",
+            "RENAULT",
+            "MERCEDES-BENZ",
+            "BMW",
+            "SKODA",
+            "CHEVROLET",
+            "AUDI",
+            "NISSAN",
+            "DATSUN",
+            "FIAT",
+            "JAGUAR",
+            "LAND",
+            "VOLVO",
+            "JEEP",
+            "MITSUBISHI",
+            "KIA",
+            "PORSCHE",
+            "MINI",
+            "MG",
+            "ISUZU",
+            "LEXUS",
+            "FORCE",
+            "BENTLEY",
+            "AMBASSADOR",
+            "OPELCORSA",
+            "DAEWOO",
+            "PREMIER",
+            "MASERATI",
+            "DC",
+            "LAMBORGHINI",
+            "FERRARI",
+            "MERCEDES-AMG",
+            "ROLLS-ROYCE",
+            "OPEL",
+        ],
+        placeholder="MARUTI",
     )
-    
+
     model_name = st.text_input("Model Name", value="Alto STD")
 
     individual = st.selectbox("Individual", ["yes", "no"])
